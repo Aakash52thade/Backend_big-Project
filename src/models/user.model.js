@@ -1,5 +1,8 @@
 import mongoose, { Schema } from "mongoose";
-import { JsonWebTokenError } from "jsonwebtoken";
+// import { JsonWebTokenError } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
+// ✅ Correct import
+
 import bcrypt from "bcrypt";
 
 const userSchema = new Schema(
@@ -104,6 +107,7 @@ userSchema.methods.generateRefreshToken = function() {
   
 }
 
-export const User = mongoose.model("User", userSchema)
+export const User = mongoose.model("User", userSchema) 
+// this user models can directly communicate with database
 
 

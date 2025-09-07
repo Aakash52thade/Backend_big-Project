@@ -1,17 +1,27 @@
+
+
 import mongoose from "mongoose";
-import { DB_NAME } from "../constants.js";  // ✅ Ensure correct import
+import { DB_NAME } from "../constants.js";
 
 const connectDB = async () => {
     try {
-        // ✅ Fix: Ensure the function call is properly formatted
-        const connectionInstance = await mongoose.connect(
-            `${process.env.MONGODB_URI}/${DB_NAME}`
-        );
+        // Ensure there's no double slash in the connection string
+        const mongoURI = process.env.MONGODB_URI.endsWith("/")
+            ? `${process.env.MONGODB_URI}${DB_NAME}`
+            : `${process.env.MONGODB_URI}/${DB_NAME}`;
 
-        console.log(`\n MongoDB Connected !! DB HOST: ${connectionInstance.connection.host}`);
-      
+        // const connectionInstance = await mongoose.connect(mongoURI, {
+        //     useNewUrlParser: true,
+        //     useUnifiedTopology: true,
+        // });
+        
+
+        const connectionInstance = await mongoose.connect(mongoURI);
+
+
+        console.log(`\n MongoDB connected !! DB HOST: ${connectionInstance.connection.host}`);
     } catch (error) {
-        console.log("MongoDB connection error", error);
+        console.log("MONGODB connection FAILED", error);
         process.exit(1);
     }
 };
